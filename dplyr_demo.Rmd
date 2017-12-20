@@ -1,0 +1,190 @@
+---
+title: "Manipulating Data in R with dplyr pipelines"
+author: Alex Wein
+date: 2017-12-20
+output: ioslides_presentation
+fig_width: 3
+---
+
+# A Little R
+
+
+## What is R?
+- __R__ is an open source programming language built initially for statistical analysis that has evolved into a full service-language for data science.
+- Often run interactively.
+- It's a programming language with all the programming language stuff: primitive types, functions, loops, functional and object-oriented.
+- __Base R:__ functionality of R when you install it, before invoking any libraries.
+- RStudio is an integrated development environment for using R.
+
+## Should you, a javacsript web developer, care about R?
+- No
+- but...maybe?
+
+## The tidyverse
+- a set of libraries (packages) that handle the central aspects of data science.
+- _dplyr_ is the main data manipulation package, which we'll peak at today.
+- Sometimes called the Hadley-verse, at the lead developer on the packages is a guy named Hadley Wickham.
+- The packages play really well together: manipulating data with _dplyr_ then charting it with _ggplot2_.
+- Good documentation, really well designed software.
+- Easy to learn (as far as coding goes), but deeply expressive.
+- Best resource: R For Data Science (Wickham & Grolemund) (http://r4ds.had.co.nz/)
+- RStudio cheat sheets are great, too.
+
+## data frames
+- It's a rectangle with numbers in it!
+- rows represent observations
+- columns represent properties (variables). Variables have names.
+- all values in a column have the same type.
+
+
+----
+```{r, message=FALSE}
+library(dplyr) # call to use dplyr
+starwars # a sample dataset preinstalled with dplyr
+```
+
+
+## What do you do with a rectangle of data:
+
+- **add new variables based on existing data: ** BMI = mass/(height^2)
+- **remove existing variables** hair color won't be used in our analysis.
+- **remove rows:** exclude droids, exclude any character that are missing data for height or mass (like Grand Moff Tarkin)
+- **sort the rows:** which character has the highest BMI? (It's Jabba!)
+- **aggregate all rows into one:** what's the average BMI of non-droid Star Wars Characters?
+
+## What that looks like in dplyr:
+```{r}
+starwars %>%
+  mutate(bmi = mass/((height/100)^2)) %>%
+  select(name, species, bmi) %>%
+  filter(species != 'droid') %>%
+  filter(!is.na(bmi)) %>%
+  arrange(desc(bmi)) %>%
+  summarise(avg_bmi = mean(bmi), observations = n())
+```
+
+----
+
+```{r  out.width = "70%", echo=FALSE}
+library(knitr)
+include_graphics('http://moderndive.com/images/select.png') 
+include_graphics('http://moderndive.com/images/filter.png') 
+include_graphics('http://moderndive.com/images/mutate.png') 
+include_graphics('http://moderndive.com/images/summarize1.png')
+```
+
+
+
+## Other things you do with data frames:
+- aggregate into groups instead of a single line
+- combine two data frames together:
+    + combining observations: two data frames with the same variables.
+    + augmenting observations: joining based on common attributes.
+- dplyr handles these, too: `group_by(), bind_rows(), left_join()` and other joins.
+
+## These manipulations are the spine of data analysis, and every data analysis framework has a way to do all of this.
+- If you've used spreadsheets a little, you've probably done a lot of this: sort, vlookup, pivot tables, filter.
+- In a spreadsheet workflow, they don't feel like a unified set of operations, and they can be hard to combine.
+- I've done this using a lot of tools...dplyr is the Right Way.
+
+# Pipes %>%
+
+## A Function in R
+- functions in base R look a lot like javascript.
+```{r}
+add <- function(a,b) {
+  sum <- a+b
+  return(a+b)
+}
+
+add(1,2)
+add(add(1,2),3)
+```
+
+## The pipe %>%
+- The pipe changes the syntax of R with the following rule:
+```{r eval=FALSE}
+ val1 %>% fun(val2) ==> fun(val1,val2)
+```
+- The value to the left of the pipe becomes the first argument of the function its right
+- `==>` is not code
+- `|` in terminal is also a pipe function.
+
+## So we got
+```{r}
+add(1,2)
+1 %>% add(2)
+add(add(1,2),3)
+1 %>% add(2) %>% add(3)
+```
+
+```{r}
+add(add(1,2),3)
+1 %>% add(2) %>% add(3)
+```
+
+----
+
+- Good style: end lines with a pipe `%>%`, indent piped-into lines.
+
+```{r}
+1 %>%
+  add(2) %>%
+  add(3)
+```
+
+
+## What's so great about this
+- Left to right. Top to bottom.
+- Code becomes a lot more readable
+- Easy to compose, debug, turn into functions
+
+## dplyr
+- A library of pure functions to handle the most common data manipulations.
+- `select(), filter(), arrange(), mutate(), summarise()`
+- `group_by(), bind_rows(), left_join()`
+- these are functions that take a data frame as their first argument and return a data frame (which is great for piping!)
+- I've used it for years and it's still very conjure-y to me (the heavy lifting is C++)
+
+## pure functions:
+- don't change the input
+- don't have side effects (since R is used interactively)
+- always map input to the same output
+- Have javascript Array.prototype HOFs in mind: `map(), filter(), reduce(), sort()`
+
+## Why are pure functions great for data analysis?
+- (Don't change input) You definitely don't want to make any changes to your original data.
+- (Don't have side effects) Since R is used interactively a lot, you're more susceptible to side-effects.
+- (Map input to same output) If it not deterministic, it's not data analysis: reproducibility is the whole game!
+
+## The pipe we wrote at the beginning
+
+```{r}
+starwars %>%
+  mutate(bmi = mass/((height/100)^2)) %>%
+  select(name, species, bmi) %>%
+  filter(species != 'droid') %>%
+  filter(!is.na(bmi)) %>%
+  arrange(desc(bmi)) %>%
+  summarise(avg_bmi = mean(bmi), observations = n())
+```
+
+## Without Pipes
+```{r}
+step1 <- mutate(starwars, bmi = mass/((height/100)^2))
+step2 <-select(step1, name, species, bmi)
+step3 <-filter(step2, species != 'droid')
+step4 <- filter(step3, !is.na(bmi))
+step5 <- arrange(step4, desc(bmi))
+step6 <- summarise(step5, avg_bmi = mean(bmi), observations = n())
+step6
+```
+
+```{r}
+summarise(arrange(filter(filter(select(mutate(starwars,
+bmi = mass/((height/100)^2)), name, species, bmi),
+species != 'droid'),!is.na(bmi)), desc(bmi)),
+avg_bmi = mean(bmi), observations = n())
+```
+
+
