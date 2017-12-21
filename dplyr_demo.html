@@ -98,7 +98,12 @@
           </hgroup>
   </slide>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>A Little R</h2></hgroup><article  id="a-little-r">
+<slide class=""><hgroup><h2></h2></hgroup><article >
+
+<ul>
+<li>html slides and code available: (github.com/a-lexwein/hr_dplyr_demo)</li>
+<li><a href='http://htmlpreview.github.io/?https://github.com/a-lexwein/hr_dplyr_demo/blob/master/dplyr_demo.html#1' title=''>link to slides</a></li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>What is R?</h2></hgroup><article  id="what-is-r">
 
@@ -141,7 +146,8 @@
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
-<pre class = 'prettyprint lang-r'>library(dplyr) # call to use dplyr
+<pre class = 'prettyprint lang-r'>## install.packages(&#39;dplyr&#39;) # first time you run, need to install
+library(dplyr) # call to use dplyr
 starwars # a sample dataset preinstalled with dplyr</pre>
 
 <pre >## # A tibble: 87 x 13
@@ -165,7 +171,7 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 
 <ul>
 <li><strong>add new variables based on existing data: </strong> BMI = mass/(height^2)</li>
-<li><strong>remove existing variables</strong> hair color won&#39;t be used in our analysis.</li>
+<li><strong>remove existing variables (or rearrange columns)</strong> hair color won&#39;t be used in our analysis.</li>
 <li><strong>remove rows:</strong> exclude droids, exclude any character that are missing data for height or mass (like Grand Moff Tarkin)</li>
 <li><strong>sort the rows:</strong> which character has the highest BMI? (It&#39;s Jabba!)</li>
 <li><strong>aggregate all rows into one:</strong> what&#39;s the average BMI of non-droid Star Wars Characters?</li>

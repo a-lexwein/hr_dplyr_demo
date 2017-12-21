@@ -3,11 +3,12 @@ title: "Manipulating Data in R with dplyr pipelines"
 author: Alex Wein
 date: 2017-12-20
 output: ioslides_presentation
-fig_width: 3
 ---
 
-# A Little R
-
+----
+## Link:
+- html slides and code available [github.com.a-lexwein/hr_dplyr_demo](http://github.com/a-lexwein/hr_dplyr_demo) 
+- [link to slides](http://htmlpreview.github.io/?https://github.com/a-lexwein/hr_dplyr_demo/blob/master/dplyr_demo.html#1)
 
 ## What is R?
 - __R__ is an open source programming language built initially for statistical analysis that has evolved into a full service-language for data science.
@@ -39,6 +40,7 @@ fig_width: 3
 
 ----
 ```{r, message=FALSE}
+## install.packages('dplyr') # first time you run, need to install
 library(dplyr) # call to use dplyr
 starwars # a sample dataset preinstalled with dplyr
 ```
@@ -47,7 +49,7 @@ starwars # a sample dataset preinstalled with dplyr
 ## What do you do with a rectangle of data:
 
 - **add new variables based on existing data: ** BMI = mass/(height^2)
-- **remove existing variables** hair color won't be used in our analysis.
+- **remove existing variables (or rearrange columns)** hair color won't be used in our analysis.
 - **remove rows:** exclude droids, exclude any character that are missing data for height or mass (like Grand Moff Tarkin)
 - **sort the rows:** which character has the highest BMI? (It's Jabba!)
 - **aggregate all rows into one:** what's the average BMI of non-droid Star Wars Characters?
