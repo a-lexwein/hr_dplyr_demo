@@ -98,24 +98,37 @@
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2></h2></hgroup><article >
+<slide class=""><hgroup><h2>Link:</h2></hgroup><article  id="link">
 
 <ul>
-<li>html slides and code available: (github.com/a-lexwein/hr_dplyr_demo)</li>
+<li>html slides and code available
+
+<ul>
+<li><a href='http://github.com/a-lexwein/hr_dplyr_demo' title=''>github.com/a-lexwein/hr_dplyr_demo</a></li>
+</ul></li>
 <li><a href='http://htmlpreview.github.io/?https://github.com/a-lexwein/hr_dplyr_demo/blob/master/dplyr_demo.html#1' title=''>link to slides</a></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>What we&#39;ll cover:</h2></hgroup><article  id="what-well-cover">
+
+<ul>
+<li>What&#39;s R?</li>
+<li>What&#39;s a data frame?</li>
+<li>What&#39;s the pipe (<code>%&gt;%</code>)?</li>
+<li>manipulating data frames with dplyr and pipes.</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>What is R?</h2></hgroup><article  id="what-is-r">
 
 <ul>
-<li><strong>R</strong> is an open source programming language built initially for statistical analysis that has evolved into a full service-language for data science.</li>
+<li><strong>R</strong> is an open source programming language built initially for statistical analysis that has evolved into a full-service language for data science.</li>
 <li>Often run interactively.</li>
-<li>It&#39;s a programming language with all the programming language stuff: primitive types, functions, loops, functional and object-oriented.</li>
-<li><strong>Base R:</strong> functionality of R when you install it, before invoking any libraries.</li>
-<li>RStudio is an integrated development environment for using R.</li>
+<li>It&#39;s a programming language with all that programming language stuff: primitive types, functions, loops, functional and object-oriented styles.</li>
+<li><strong>Base R:</strong> functionality of R when you install it, without using any libraries.</li>
+<li><strong>RStudio</strong> is an integrated development environment for using R.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Should you, a javacsript web developer, care about R?</h2></hgroup><article  id="should-you-a-javacsript-web-developer-care-about-r">
+</article></slide><slide class=""><hgroup><h2>Should you, a Javascript web developer, care about R?</h2></hgroup><article  id="should-you-a-javascript-web-developer-care-about-r">
 
 <ul>
 <li>No</li>
@@ -126,10 +139,10 @@
 
 <ul>
 <li>a set of libraries (packages) that handle the central aspects of data science.</li>
-<li><em>dplyr</em> is the main data manipulation package, which we&#39;ll peak at today.</li>
-<li>Sometimes called the Hadley-verse, at the lead developer on the packages is a guy named Hadley Wickham.</li>
-<li>The packages play really well together: manipulating data with <em>dplyr</em> then charting it with <em>ggplot2</em>.</li>
-<li>Good documentation, really well designed software.</li>
+<li>One tidyverse package: <strong>dplyr</strong>, the main data manipulation package.</li>
+<li>Sometimes called the Hadley-verse. The lead developer on the packages is named Hadley Wickham.</li>
+<li>The packages play really well together: manipulating data with <strong>dplyr</strong> then charting it with <strong>ggplot2</strong>.</li>
+<li>Good documentation (www.tidyverse.org), really well designed software.</li>
 <li>Easy to learn (as far as coding goes), but deeply expressive.</li>
 <li>Best resource: R For Data Science (Wickham &amp; Grolemund) (<a href='http://r4ds.had.co.nz/' title=''>http://r4ds.had.co.nz/</a>)</li>
 <li>RStudio cheat sheets are great, too.</li>
@@ -138,7 +151,7 @@
 </article></slide><slide class=""><hgroup><h2>data frames</h2></hgroup><article  id="data-frames">
 
 <ul>
-<li>It&#39;s a rectangle with numbers in it!</li>
+<li>It&#39;s a rectangle with numbers (or strings) in it!</li>
 <li>rows represent observations</li>
 <li>columns represent properties (variables). Variables have names.</li>
 <li>all values in a column have the same type.</li>
@@ -172,9 +185,9 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 <ul>
 <li><strong>add new variables based on existing data: </strong> BMI = mass/(height^2)</li>
 <li><strong>remove existing variables (or rearrange columns)</strong> hair color won&#39;t be used in our analysis.</li>
-<li><strong>remove rows:</strong> exclude droids, exclude any character that are missing data for height or mass (like Grand Moff Tarkin)</li>
+<li><strong>remove rows:</strong> exclude droids, exclude any characters that are missing data for height or mass (like Grand Moff Tarkin)</li>
 <li><strong>sort the rows:</strong> which character has the highest BMI? (It&#39;s Jabba!)</li>
-<li><strong>aggregate all rows into one:</strong> what&#39;s the average BMI of non-droid Star Wars Characters?</li>
+<li><strong>aggregate all rows into one:</strong> what&#39;s the average BMI of non-droid Star Wars characters?</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>What that looks like in dplyr:</h2></hgroup><article  id="what-that-looks-like-in-dplyr">
@@ -182,15 +195,15 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 <pre class = 'prettyprint lang-r'>starwars %&gt;%
   mutate(bmi = mass/((height/100)^2)) %&gt;%
   select(name, species, bmi) %&gt;%
-  filter(species != &#39;droid&#39;) %&gt;%
+  filter(species != &#39;Droid&#39;) %&gt;%
   filter(!is.na(bmi)) %&gt;%
   arrange(desc(bmi)) %&gt;%
   summarise(avg_bmi = mean(bmi), observations = n())</pre>
 
 <pre >## # A tibble: 1 x 2
-##   avg_bmi observations
-##     &lt;dbl&gt;        &lt;int&gt;
-## 1   32.34           58</pre>
+##    avg_bmi observations
+##      &lt;dbl&gt;        &lt;int&gt;
+## 1 32.31658           54</pre>
 
 </article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
 
@@ -199,12 +212,12 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 </article></slide><slide class=""><hgroup><h2>Other things you do with data frames:</h2></hgroup><article  id="other-things-you-do-with-data-frames">
 
 <ul>
-<li>aggregate into groups instead of a single line</li>
+<li>aggregate into groups instead of just one line</li>
 <li>combine two data frames together:
 
 <ul>
 <li>combining observations: two data frames with the same variables.</li>
-<li>augmenting observations: joining based on common attributes.</li>
+<li>augmenting observations: joining data frames based on common attributes.</li>
 </ul></li>
 <li>dplyr handles these, too: <code>group_by(), bind_rows(), left_join()</code> and other joins.</li>
 </ul>
@@ -214,7 +227,7 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 <ul>
 <li>If you&#39;ve used spreadsheets a little, you&#39;ve probably done a lot of this: sort, vlookup, pivot tables, filter.</li>
 <li>In a spreadsheet workflow, they don&#39;t feel like a unified set of operations, and they can be hard to combine.</li>
-<li>I&#39;ve done this using a lot of tools&#8230;dplyr is the Right Way.</li>
+<li>I&#39;ve done this using a lot of tools&#8230;dplyr is <strong>The Right Way</strong>.</li>
 </ul>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Pipes %&gt;%</h2></hgroup><article  id="pipes">
@@ -228,9 +241,9 @@ starwars # a sample dataset preinstalled with dplyr</pre>
 <pre class = 'prettyprint lang-r'>add &lt;- function(a,b) {
   sum &lt;- a+b
   return(a+b)
-}
+}</pre>
 
-add(1,2)</pre>
+<pre class = 'prettyprint lang-r'>add(1,2)</pre>
 
 <pre >## [1] 3</pre>
 
@@ -254,7 +267,7 @@ add(1,2)</pre>
 
 </article></slide><slide class=""><hgroup><h2>So we got</h2></hgroup><article  id="so-we-got">
 
-<pre class = 'prettyprint lang-r'>add(1,2)</pre>
+<pre class = 'prettyprint lang-r'>add(1, 2)</pre>
 
 <pre >## [1] 3</pre>
 
@@ -262,7 +275,7 @@ add(1,2)</pre>
 
 <pre >## [1] 3</pre>
 
-<pre class = 'prettyprint lang-r'>add(add(1,2),3)</pre>
+<pre class = 'prettyprint lang-r'>add(add(1, 2), 3)</pre>
 
 <pre >## [1] 6</pre>
 
@@ -290,18 +303,19 @@ add(1,2)</pre>
 
 <pre >## [1] 6</pre>
 
-</article></slide><slide class=""><hgroup><h2>What&#39;s so great about this</h2></hgroup><article  id="whats-so-great-about-this">
+</article></slide><slide class=""><hgroup><h2>What&#39;s so great about this?</h2></hgroup><article  id="whats-so-great-about-this">
 
 <ul>
-<li>Left to right. Top to bottom.</li>
+<li>Data flows left to right and top to bottom</li>
 <li>Code becomes a lot more readable</li>
-<li>Easy to compose, debug, turn into functions</li>
+<li>Easy to compose, debug, turn expressions into functions</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>dplyr</h2></hgroup><article  id="dplyr">
 
 <ul>
 <li>A library of pure functions to handle the most common data manipulations.</li>
+<li>The functions make up a grammar of data frame manipulations.</li>
 <li><code>select(), filter(), arrange(), mutate(), summarise()</code></li>
 <li><code>group_by(), bind_rows(), left_join()</code></li>
 <li>these are functions that take a data frame as their first argument and return a data frame (which is great for piping!)</li>
@@ -311,10 +325,10 @@ add(1,2)</pre>
 </article></slide><slide class=""><hgroup><h2>pure functions:</h2></hgroup><article  id="pure-functions">
 
 <ul>
-<li>don&#39;t change the input</li>
-<li>don&#39;t have side effects (since R is used interactively)</li>
-<li>always map input to the same output</li>
-<li>Have javascript Array.prototype HOFs in mind: <code>map(), filter(), reduce(), sort()</code></li>
+<li>Don&#39;t change the input</li>
+<li>Don&#39;t have side effects (since R is used interactively)</li>
+<li>Always map input to the same output</li>
+<li>Have javascript Array.prototype HOFs in mind: <code>map(), filter(), sort()</code>, and <code>reduce()</code> where <code>acc</code> is an array.</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Why are pure functions great for data analysis?</h2></hgroup><article  id="why-are-pure-functions-great-for-data-analysis">
@@ -322,48 +336,52 @@ add(1,2)</pre>
 <ul>
 <li>(Don&#39;t change input) You definitely don&#39;t want to make any changes to your original data.</li>
 <li>(Don&#39;t have side effects) Since R is used interactively a lot, you&#39;re more susceptible to side-effects.</li>
-<li>(Map input to same output) If it not deterministic, it&#39;s not data analysis: reproducibility is the whole game!</li>
+<li>(Map input to deterministic output) If it&#39;s not deterministic, it&#39;s not even data analysis: reproducibility is the whole game!</li>
 </ul>
+
+</article></slide><slide class=""><hgroup><h2></h2></hgroup><article >
+
+<p><img src="http://moderndive.com/images/select.png" width="70%" /><img src="http://moderndive.com/images/filter.png" width="70%" /><img src="http://moderndive.com/images/mutate.png" width="70%" /><img src="http://moderndive.com/images/summarize1.png" width="70%" /></p>
 
 </article></slide><slide class=""><hgroup><h2>The pipe we wrote at the beginning</h2></hgroup><article  id="the-pipe-we-wrote-at-the-beginning">
 
 <pre class = 'prettyprint lang-r'>starwars %&gt;%
   mutate(bmi = mass/((height/100)^2)) %&gt;%
   select(name, species, bmi) %&gt;%
-  filter(species != &#39;droid&#39;) %&gt;%
+  filter(species != &#39;Droid&#39;) %&gt;%
   filter(!is.na(bmi)) %&gt;%
   arrange(desc(bmi)) %&gt;%
   summarise(avg_bmi = mean(bmi), observations = n())</pre>
 
 <pre >## # A tibble: 1 x 2
-##   avg_bmi observations
-##     &lt;dbl&gt;        &lt;int&gt;
-## 1   32.34           58</pre>
+##    avg_bmi observations
+##      &lt;dbl&gt;        &lt;int&gt;
+## 1 32.31658           54</pre>
 
 </article></slide><slide class=""><hgroup><h2>Without Pipes</h2></hgroup><article  id="without-pipes">
 
 <pre class = 'prettyprint lang-r'>step1 &lt;- mutate(starwars, bmi = mass/((height/100)^2))
 step2 &lt;-select(step1, name, species, bmi)
-step3 &lt;-filter(step2, species != &#39;droid&#39;)
+step3 &lt;-filter(step2, species != &#39;Droid&#39;)
 step4 &lt;- filter(step3, !is.na(bmi))
 step5 &lt;- arrange(step4, desc(bmi))
 step6 &lt;- summarise(step5, avg_bmi = mean(bmi), observations = n())
 step6</pre>
 
 <pre >## # A tibble: 1 x 2
-##   avg_bmi observations
-##     &lt;dbl&gt;        &lt;int&gt;
-## 1   32.34           58</pre>
+##    avg_bmi observations
+##      &lt;dbl&gt;        &lt;int&gt;
+## 1 32.31658           54</pre>
 
 <pre class = 'prettyprint lang-r'>summarise(arrange(filter(filter(select(mutate(starwars,
-bmi = mass/((height/100)^2)), name, species, bmi),
-species != &#39;droid&#39;),!is.na(bmi)), desc(bmi)),
-avg_bmi = mean(bmi), observations = n())</pre>
+  bmi = mass/((height/100)^2)), name, species, bmi),
+  species != &#39;Droid&#39;),!is.na(bmi)), desc(bmi)),
+  avg_bmi = mean(bmi), observations = n())</pre>
 
 <pre >## # A tibble: 1 x 2
-##   avg_bmi observations
-##     &lt;dbl&gt;        &lt;int&gt;
-## 1   32.34           58</pre></article></slide>
+##    avg_bmi observations
+##      &lt;dbl&gt;        &lt;int&gt;
+## 1 32.31658           54</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
