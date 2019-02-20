@@ -72,16 +72,6 @@ starwars %>%
   summarise(avg_bmi = mean(bmi), observations = n())
 ```
 
-----
-
-```{r  out.width = "70%", echo=FALSE}
-library(knitr)
-include_graphics('http://moderndive.com/images/select.png') 
-include_graphics('http://moderndive.com/images/filter.png') 
-include_graphics('http://moderndive.com/images/mutate.png') 
-include_graphics('http://moderndive.com/images/summarize1.png')
-```
-
 
 ## Other things you do with data frames:
 - aggregate into groups instead of just one line
@@ -167,15 +157,6 @@ add(add(1,2),3)
 - (Don't have side effects) Since R is used interactively a lot, you're more susceptible to side-effects.
 - (Map input to deterministic output) If it's not deterministic, it's not even data analysis: reproducibility is the whole game!
 
-----
-
-```{r  out.width = "70%", echo=FALSE}
-library(knitr)
-include_graphics('http://moderndive.com/images/select.png') 
-include_graphics('http://moderndive.com/images/filter.png') 
-include_graphics('http://moderndive.com/images/mutate.png') 
-include_graphics('http://moderndive.com/images/summarize1.png')
-```
 
 ## The pipe we wrote at the beginning
 
